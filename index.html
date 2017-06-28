@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html ng-app="Sunburst">
+
+<head>
+  <meta charset="utf-8">
+  <title>D3 Sunburst Sequence</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="container">
+
+  <!-- header -->
+  <header class="page-header">
+    <h1>Carat Sunburst Visualization</h1> 
+    <p class="text-small">Interactive sunburst visualization of digital attribution data changes.</p>
+  </header>
+
+
+  <!-- main content -->
+  <div class="main" ng-controller="MainCtrl as sunburst">
+
+    <!-- visualization -->
+    <h2>Visualization</h2>
+    <p>Hover for data summary, click on visualization to reset summary.</p>
+    <p>Select example: <select ng-options="example for example in sunburst.examples" ng-model="sunburst.exampleSelected" ng-change="sunburst.selectExample(sunburst.exampleSelected)"></select></p>
+   
+    <div class="visualization">
+      <sunburst data="sunburst.data"></sunburst>
+    </div>
+
+    <p>Carat sunburst visualization helps track population changes from initial channels over lifecycles e.g. digital channels, sites and publishers.</p>
+    <p>For custom testing, load up a file conforming to the data schema (see details below) or you can test out the following sample files (fake data):</p>
+    <ul>
+      <li><a href="digital_data_conversion.csv" target="_blank">Digital Conversion</a>
+      </li>
+      <li><a href="dcd_data_path.csv" target="_blank">DCD Path</a>
+      </li>
+      <li><a href="site_data_visit.csv" target="_blank">Site Visit</a>
+      </li>
+    </ul>
+    <input id="fileUpload" type="file" on-read-file="sunburst.getData($fileContent)" />
+    <hr />
+
+
+
+    <!-- details -->
+    <div class="Details">
+      <h2>Details</h2>
+      <p>
+        This is a interactive visualization to measure digital attribution. This App can organize the code base and draw the D3 components from a single HTML <code>div</code> tag, and to dynamically assign color and legend scales.
+      </p>
+      <p>
+        Another advantage of this App is generalizing and conventionalizing data inputs. The input requires a simple tabular schema of <code>sequence, stage, node, value</code> (see below) and the program will parse the data into a JSON graph.
+      </p>
+      <p>The design of the data imput therefore makes the visualization more useable on relational database queries. The CSV data can be unsorted but it must <em>NOT</em> contain a header, and has to conform to the following data column requiorements.
+      </p>
+      <ul>
+        <li><code>sequence (int/string):</code> an ordered sequence that clearly defines the grouping of nodes.</li>
+        <li><code>stage (int): </code>the index/order of nodes in a given sequence.</li>
+        <li><code>node (int/string): </code>the data name of the node.</li>
+        <li><code>value (int): </code>the value at each stage of a given sequence. Only the final stage value in a given sequence is used in this visualization.</li>
+      </ul>
+      <hr />
+    </div>
+
+
+    <!-- data/file preview -->
+    <div class="preview">
+      <h2>Data</h2>
+      <pre>{{ sunburst.data }}</pre>
+    </div>
+  </div>
+
+    <!-- SQL query preview -->
+    <div class="sql">
+      <h2>SQL Query</h2>
+      <pre>
+SELECT
+  path,
+  COUNT(user_id) AS num
+FROM (
+  SELECT
+    user_id,
+    GROUP_CONCAT(site_dcm, "-") AS path
+  FROM (
+    SELECT
+      Time,
+      user_id,
+      CASE
+        WHEN site_id_dcm = '3045223' THEN 'programmtaic'
+        WHEN site_id_dcm = '1041621' THEN 'youtube'
+        WHEN site_id_dcm = '1082487' THEN 'complex'
+        WHEN site_id_dcm = '1085227' THEN 'pandora'
+        WHEN site_id_dcm = '1238275' THEN 'xad'
+        WHEN site_id_dcm = '1039223' THEN 'thrillist'
+        WHEN site_id_dcm = '1171801' THEN 'flavorphill'
+        WHEN site_id_dcm = '2949270' THEN 'bdg'
+        WHEN site_id_dcm = '1147830' THEN 'espn'
+        WHEN site_id_dcm = '1037640' THEN 'hulu'
+        WHEN site_id_dcm = '1781853' THEN 'food52'
+        WHEN site_id_dcm = '1946779' THEN 'eiltedaily'
+        WHEN site_id_dcm = '2679027' THEN 'drizly'
+        WHEN site_id_dcm = '1240509' THEN 'spotify'
+        ELSE 'vice'
+      END AS site_dcm
+    FROM
+      [cookiepoc-139913:nxie_analytics.SM_Q4_ImpJoinAct])
+  GROUP BY
+    user_id)
+GROUP BY
+  path
+ORDER BY
+  num DESC
+      </pre>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <footer>
+    <p>Carat Sunburst Sequence by nealxie, 2017-06-23
+      <br />
+    </p>
+  </footer>
+
+
+  <!-- scripts -->
+  <script src="http://code.angularjs.org/1.6.4/angular.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="app.js"></script>
+  <script src="sunburst.js"></script>
+  <script>
+    // Hack to make this example display correctly in an iframe on bl.ocks.org
+    d3.select(self.frameElement).style("height", "1000px");
+  </script>
+</body>
+
+</html>
