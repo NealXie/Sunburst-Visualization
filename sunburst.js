@@ -16,14 +16,14 @@ function sunburstDraw(scope, element) {
    *
    */
   // svg dimensions
-  var width = 550;
-  var height = 325;
+  var width = 600;
+  var height = 400;
   var radius = Math.min(width, height) / 2;
 
   // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
   var b = {
     w: 60,
-    h: 30,
+    h: 25,
     s: 3,
     t: 10
   };
@@ -31,7 +31,7 @@ function sunburstDraw(scope, element) {
   // Legend dimensions: width, height, spacing, radius of rounded rect.
   var li = {
     w: 75,
-    h: 30,
+    h: 25,
     s: 3,
     r: 3
   };
@@ -308,7 +308,7 @@ function sunburstDraw(scope, element) {
     summary.html(
       "Stage: " + d.depth + "<br />" +
       "<span class='percentage'>" + percentageString + "</span><br />" +
-      "of visits"
+      "of total"
     );
 
     // display summary and breadcrumbs if hidden
