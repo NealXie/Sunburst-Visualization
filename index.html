@@ -14,7 +14,7 @@
 
   <!-- header -->
   <header class="page-header">
-    <h1>Carat Sunburst Visualization</h1> 
+    <h1>Sunburst Visualization</h1> 
     <p class="text-small">Interactive sunburst visualization of digital attribution data changes.</p>
   </header>
 
@@ -31,7 +31,7 @@
       <sunburst data="sunburst.data"></sunburst>
     </div>
 
-    <p>Carat sunburst visualization helps track population changes from initial channels over lifecycles e.g. digital channels, sites and publishers.</p>
+    <p>Sunburst visualization helps track population changes from initial channels over lifecycles e.g. digital channels, sites and publishers.</p>
     <p>For custom testing, load up a file conforming to the data schema (see details below) or you can test out the following sample files (fake data):</p>
     <ul>
       <li><a href="digital_data_conversion.csv" target="_blank">Digital Conversion</a>
@@ -88,19 +88,12 @@ FROM (
       Time,
       user_id,
       CASE
-        WHEN site_id_dcm = '3045223' THEN 'programmtaic'
         WHEN site_id_dcm = '1041621' THEN 'youtube'
         WHEN site_id_dcm = '1082487' THEN 'complex'
         WHEN site_id_dcm = '1085227' THEN 'pandora'
         WHEN site_id_dcm = '1238275' THEN 'xad'
-        WHEN site_id_dcm = '1039223' THEN 'thrillist'
-        WHEN site_id_dcm = '1171801' THEN 'flavorphill'
-        WHEN site_id_dcm = '2949270' THEN 'bdg'
         WHEN site_id_dcm = '1147830' THEN 'espn'
         WHEN site_id_dcm = '1037640' THEN 'hulu'
-        WHEN site_id_dcm = '1781853' THEN 'food52'
-        WHEN site_id_dcm = '1946779' THEN 'eiltedaily'
-        WHEN site_id_dcm = '2679027' THEN 'drizly'
         WHEN site_id_dcm = '1240509' THEN 'spotify'
         ELSE 'vice'
       END AS site_dcm
@@ -118,15 +111,15 @@ ORDER BY
 
   <!-- footer -->
   <footer>
-    <p>Carat Sunburst Sequence by nealxie, 2017-06-23
+    <p>Sunburst Sequence by nealxie, 2017-06-23
       <br />
     </p>
   </footer>
 
 
   <!-- scripts -->
-  <script src="http://code.angularjs.org/1.6.4/angular.js"></script>
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="https://code.angularjs.org/1.6.4/angular.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
   <script src="app.js"></script>
   <script src="sunburst.js"></script>
   <script>
